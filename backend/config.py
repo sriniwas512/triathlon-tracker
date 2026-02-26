@@ -6,7 +6,7 @@ import os
 from datetime import datetime, timezone, timedelta
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=False)
 
 # --- Strava ---
 STRAVA_CLIENT_ID = os.getenv("STRAVA_CLIENT_ID", "")
