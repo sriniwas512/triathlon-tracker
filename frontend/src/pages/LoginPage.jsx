@@ -112,20 +112,44 @@ export default function LoginPage() {
             <h1 className="login-title">🏊 🚴 🏃 Triathlon Tracker</h1>
             <p className="login-subtitle">March 2026 Challenge — Connect your Strava to begin</p>
 
-            <div className="login-cards">
-                {players.map((player) => (
-                    <PlayerCard key={player.id} player={player} />
-                ))}
+            <div className="login-connection-section">
+                <h2 className="section-header" style={{ justifyContent: 'center', marginBottom: '32px' }}>
+                    1. Connect Athletes
+                </h2>
+                <div className="login-cards">
+                    {players.length > 0 ? (
+                        players.map((player) => (
+                            <PlayerCard key={player.id} player={player} />
+                        ))
+                    ) : (
+                        <div className="glass-card" style={{ width: '100%', maxWidth: '600px', textAlign: 'center' }}>
+                            <p style={{ color: 'var(--text-secondary)' }}>
+                                No player slots found. Please ensure the backend is running and players are seeded.
+                            </p>
+                        </div>
+                    )}
+                </div>
             </div>
 
-            <div className="login-proceed">
-                <button
-                    className="btn btn-proceed"
-                    disabled={!allConnected}
-                    onClick={() => navigate('/dashboard')}
-                >
-                    {allConnected ? '🚀 Enter Dashboard' : '🔒 Connect all athletes to continue'}
-                </button>
+            <div className="login-proceed-section">
+                <h2 className="section-header" style={{ justifyContent: 'center', marginTop: '64px', marginBottom: '24px' }}>
+                    2. Ready to Begin?
+                </h2>
+                <div className="login-proceed">
+                    <button
+                        className="btn btn-proceed"
+                        disabled={!allConnected}
+                        onClick={() => navigate('/dashboard')}
+                        style={{ width: '100%', maxWidth: '400px' }}
+                    >
+                        {allConnected ? '🚀 Enter Dashboard' : '🔒 Connect all athletes to continue'}
+                    </button>
+                    {!allConnected && (
+                        <p className="login-detail" style={{ marginTop: '16px', textAlign: 'center', fontSize: '14px', opacity: 0.7 }}>
+                            Waiting for both players to link their Strava accounts...
+                        </p>
+                    )}
+                </div>
             </div>
         </div>
     )
