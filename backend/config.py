@@ -26,7 +26,8 @@ TIMEZONE_DISPLAY = os.getenv("TIMEZONE_DISPLAY", "Asia/Singapore")
 
 # --- URLs ---
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
-BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+# Railway uses API_BASE_URL for the backend endpoint as requested
+BACKEND_URL = os.getenv("API_BASE_URL") or os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # --- Timezone helpers ---
 JST = timezone(timedelta(hours=9))
