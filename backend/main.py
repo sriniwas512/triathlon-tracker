@@ -5,6 +5,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from config import FRONTEND_URL, BACKEND_URL
+from services.block_service import seed_blocks, seed_players
+from routers import auth, players, activities, scores
 import os
 
 @asynccontextmanager
