@@ -25,7 +25,7 @@ class TestTokenRefresh:
         mock_db.collection.return_value.document.return_value.get.return_value = mock_doc
 
         with patch("backend.services.strava_service.get_db", return_value=mock_db):
-            from backend.services.strava_service import refresh_access_token
+            from services.strava_service import refresh_access_token
             token = await refresh_access_token("player_1")
             assert token == "valid_token"
 
@@ -59,7 +59,7 @@ class TestTokenRefresh:
 
         with patch("backend.services.strava_service.get_db", return_value=mock_db):
             with patch("backend.services.strava_service.httpx.AsyncClient", return_value=mock_client):
-                from backend.services.strava_service import refresh_access_token
+                from services.strava_service import refresh_access_token
                 token = await refresh_access_token("player_1")
                 assert token == "new_token"
 
@@ -73,7 +73,7 @@ class TestTokenRefresh:
         mock_db.collection.return_value.document.return_value.get.return_value = mock_doc
 
         with patch("backend.services.strava_service.get_db", return_value=mock_db):
-            from backend.services.strava_service import refresh_access_token
+            from services.strava_service import refresh_access_token
             with pytest.raises(ValueError, match="not found"):
                 await refresh_access_token("nonexistent")
 

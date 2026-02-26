@@ -4,9 +4,9 @@ Triathlon Competition Tracker — FastAPI Application
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.config import PLAYER1_NAME, PLAYER2_NAME, FRONTEND_URL
-from backend.services.block_service import seed_blocks, seed_players
-from backend.routers import auth, players, activities, scores
+from config import PLAYER1_NAME, PLAYER2_NAME, FRONTEND_URL
+from services.block_service import seed_blocks, seed_players
+from routers import auth, players, activities, scores
 
 
 @asynccontextmanager

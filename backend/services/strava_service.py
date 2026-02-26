@@ -3,13 +3,13 @@ Strava API service — OAuth, token refresh, activity fetching.
 """
 import time
 import httpx
-from backend.config import (
+from config import (
     STRAVA_CLIENT_ID,
     STRAVA_CLIENT_SECRET,
     STRAVA_TOKEN_URL,
     STRAVA_API_BASE,
 )
-from backend.firebase_client import get_db
+from firebase_client import get_db
 
 
 async def exchange_code(code: str) -> dict:

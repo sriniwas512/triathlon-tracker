@@ -2,8 +2,8 @@
 Block management service — seeding, window lookups, lock management.
 """
 from datetime import datetime, timezone
-from backend.config import BLOCK_DEFINITIONS
-from backend.firebase_client import get_db
+from config import BLOCK_DEFINITIONS
+from firebase_client import get_db
 
 
 def seed_blocks():

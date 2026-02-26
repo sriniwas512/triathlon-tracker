@@ -2,13 +2,13 @@
 Scores router — calculate, retrieve, and dashboard aggregation.
 """
 from fastapi import APIRouter, HTTPException
-from backend.firebase_client import get_db
-from backend.services.scoring_service import (
+from firebase_client import get_db
+from services.scoring_service import (
     calculate_block_scores,
     get_all_scores,
     get_dashboard_data,
 )
-from backend.services.block_service import get_most_recently_closed_block, get_all_blocks
+from services.block_service import get_most_recently_closed_block, get_all_blocks
 
 router = APIRouter(prefix="/api", tags=["scores"])
 

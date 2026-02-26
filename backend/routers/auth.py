@@ -3,14 +3,14 @@ Authentication router — Strava OAuth 2.0 flow.
 """
 from urllib.parse import urlencode
 from fastapi import APIRouter, HTTPException, Query
-from backend.config import (
+from config import (
     STRAVA_CLIENT_ID,
     STRAVA_AUTH_URL,
     BACKEND_URL,
     FRONTEND_URL,
 )
-from backend.firebase_client import get_db
-from backend.services.strava_service import exchange_code, get_athlete_profile
+from firebase_client import get_db
+from services.strava_service import exchange_code, get_athlete_profile
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 

@@ -3,7 +3,7 @@ Player management router.
 """
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from backend.firebase_client import get_db
+from firebase_client import get_db
 
 router = APIRouter(prefix="/api", tags=["players"])
 

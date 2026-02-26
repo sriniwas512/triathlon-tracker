@@ -10,8 +10,8 @@ Scoring rules:
 """
 from datetime import datetime, timezone
 from collections import defaultdict
-from backend.config import BLOCK_DEFINITIONS
-from backend.firebase_client import get_db
+from config import BLOCK_DEFINITIONS
+from firebase_client import get_db
 
 
 def _get_block_def(block_id: str) -> dict | None:

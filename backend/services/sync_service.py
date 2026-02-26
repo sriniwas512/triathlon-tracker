@@ -3,13 +3,13 @@ Activity sync service — fetches activities from Strava, filters, maps,
 assigns to blocks, and stores in Firestore.
 """
 from datetime import datetime, timezone
-from backend.config import (
+from config import (
     BLOCK_DEFINITIONS,
     get_block_for_activity,
     get_sport_category,
 )
-from backend.firebase_client import get_db
-from backend.services.strava_service import (
+from firebase_client import get_db
+from services.strava_service import (
     refresh_access_token,
     list_activities,
     get_activity_detail,

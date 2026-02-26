@@ -5,7 +5,7 @@ JST open and PST close edge cases.
 """
 import pytest
 from datetime import datetime, timezone, timedelta
-from backend.config import (
+from config import (
     BLOCK_DEFINITIONS,
     get_block_for_activity,
     get_sport_category,

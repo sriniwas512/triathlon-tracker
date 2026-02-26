@@ -103,7 +103,7 @@ class TestBaseScoring:
         })
 
         with patch("backend.services.scoring_service.get_db", return_value=db):
-            from backend.services.scoring_service import calculate_block_scores
+            from services.scoring_service import calculate_block_scores
             return calculate_block_scores(block_id)
 
     def test_higher_calories_wins(self):
@@ -181,7 +181,7 @@ class TestCleanSweep:
             "scores": MockCollection(),
         })
         with patch("backend.services.scoring_service.get_db", return_value=db):
-            from backend.services.scoring_service import calculate_block_scores
+            from services.scoring_service import calculate_block_scores
             return calculate_block_scores(block_id)
 
     def test_clean_sweep_achieved(self):
@@ -248,7 +248,7 @@ class TestBlock1EdgeCase:
             "scores": MockCollection(),
         })
         with patch("backend.services.scoring_service.get_db", return_value=db):
-            from backend.services.scoring_service import calculate_block_scores
+            from services.scoring_service import calculate_block_scores
             return calculate_block_scores("block_1")
 
     def test_block1_swim_winner_gets_3(self):
@@ -290,6 +290,6 @@ class TestLockedBlockImmutability:
             "scores": MockCollection(),
         })
         with patch("backend.services.scoring_service.get_db", return_value=db):
-            from backend.services.scoring_service import calculate_block_scores
+            from services.scoring_service import calculate_block_scores
             with pytest.raises(ValueError, match="already locked"):
                 calculate_block_scores("block_2")

@@ -2,8 +2,8 @@
 Activities router — sync from Strava, list stored activities.
 """
 from fastapi import APIRouter, HTTPException
-from backend.firebase_client import get_db
-from backend.services.sync_service import sync_player_activities
+from firebase_client import get_db
+from services.sync_service import sync_player_activities
 
 router = APIRouter(prefix="/api/activities", tags=["activities"])
 
