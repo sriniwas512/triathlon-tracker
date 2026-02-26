@@ -22,7 +22,7 @@ A head-to-head triathlon challenge tracker for March 2026. Athletes connect thei
 
 1. Go to [strava.com/settings/api](https://www.strava.com/settings/api)
 2. Create a new application
-3. Set **Authorization Callback Domain** to your backend URL (e.g. `localhost` for dev, or your Railway domain)
+3. Set **Authorization Callback Domain** to your backend URL (e.g. `localhost` for development, or your Railway production domain)
 4. Note the **Client ID** and **Client Secret**
 
 ### 2. Configure Environment
@@ -37,10 +37,10 @@ Edit `.env` with your Strava credentials and Firebase service account:
 STRAVA_CLIENT_ID=your_id
 STRAVA_CLIENT_SECRET=your_secret
 FIREBASE_SERVICE_ACCOUNT_JSON=path/to/service-account.json
-PLAYER1_NAME=Athlete Alpha
-PLAYER2_NAME=Athlete Beta
+# PLAYER names are now synchronized from Strava automatically
 TIMEZONE_DISPLAY=Asia/Singapore
 FRONTEND_URL=http://localhost:5173
+API_BASE_URL=http://localhost:8000
 ```
 
 ### 3. Run Backend
@@ -48,7 +48,7 @@ FRONTEND_URL=http://localhost:5173
 ```bash
 cd backend
 pip install -r requirements.txt
-uvicorn backend.main:app --reload --port 8000
+uvicorn main:app --reload --port 8000
 ```
 
 The backend seeds player slots and block definitions on startup.
@@ -116,8 +116,6 @@ Push to `main` triggers `.github/workflows/deploy-frontend.yml`:
 | `FIREBASE_SERVICE_ACCOUNT` | Firebase service account for hosting |
 | `FIREBASE_PROJECT_ID` | Firebase project ID |
 | `API_BASE_URL` | Backend API URL for frontend build |
-| `PLAYER1_NAME` | Display name for player 1 |
-| `PLAYER2_NAME` | Display name for player 2 |
 | `TIMEZONE_DISPLAY` | `Asia/Singapore` or `Europe/Munich` |
 
 ## Competition Rules

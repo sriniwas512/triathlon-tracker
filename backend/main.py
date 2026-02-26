@@ -4,14 +4,18 @@ Triathlon Competition Tracker — FastAPI Application
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from config import FRONTEND_URL
-from services.block_service import seed_blocks, seed_players
-from routers import auth, players, activities, scores
-
+from config import FRONTEND_URL, BACKEND_URL
+import os
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Startup: seed blocks and players."""
+    """Startup: seed blocks and players + logging configuration."""
+    print("--- Startup Configuration ---")
+    print(f"FRONTEND_URL: {FRONTEND_URL}")
+    print(f"BACKEND_URL: {BACKEND_URL}")
+    print(f"API_BASE_URL (env): {os.getenv('API_BASE_URL')}")
+    print("-----------------------------")
+    
     seed_blocks()
     seed_players()
     yield
@@ -25,9 +29,10 @@ app = FastAPI(
 )
 
 # CORS
+# Only use the configured FRONTEND_URL (which defaults to localhost for dev)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL, "http://localhost:5173", "http://localhost:3000"],
+    allow_origins=[FRONTEND_URL],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
