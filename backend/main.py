@@ -1,3 +1,8 @@
+import os
+print(f"API_BASE_URL = {os.environ.get('API_BASE_URL')}")
+print(f"BACKEND_URL = {os.environ.get('BACKEND_URL')}")
+print(f"FRONTEND_URL = {os.environ.get('FRONTEND_URL')}")
+
 """
 Triathlon Competition Tracker — FastAPI Application
 """
@@ -7,7 +12,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from config import FRONTEND_URL, BACKEND_URL
 from services.block_service import seed_blocks, seed_players
 from routers import auth, players, activities, scores
-import os
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
