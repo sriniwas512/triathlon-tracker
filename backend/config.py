@@ -1,3 +1,6 @@
+import os
+print("DEBUG BACKEND_URL =", os.environ.get("API_BASE_URL"), flush=True)
+
 """
 Configuration for the Triathlon Tracker backend.
 Loads environment variables and defines block windows.
