@@ -19,8 +19,7 @@ STRAVA_API_BASE = "https://www.strava.com/api/v3"
 FIREBASE_SERVICE_ACCOUNT_JSON = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON", "")
 
 # --- Players ---
-PLAYER1_NAME = os.getenv("PLAYER1_NAME", "Player One")
-PLAYER2_NAME = os.getenv("PLAYER2_NAME", "Player Two")
+# Player names are now pulled from Strava.
 
 # --- Display ---
 TIMEZONE_DISPLAY = os.getenv("TIMEZONE_DISPLAY", "Asia/Singapore")

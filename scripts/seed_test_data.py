@@ -61,12 +61,13 @@ def seed():
 
     # Ensure blocks and players exist
     seed_blocks()
-    seed_players(["Athlete Alpha", "Athlete Beta"])
+    seed_players()
 
     # Mark players as connected (so dashboard works)
-    for pid in [P1, P2]:
+    for i, pid in enumerate([P1, P2]):
         db.collection("athletes").document(pid).update({
             "status": "connected",
+            "display_name": f"Athlete {chr(65+i)}",  # Athlete A, Athlete B
             "strava_athlete_id": f"strava_{pid}",
             "profile_photo": None,
         })

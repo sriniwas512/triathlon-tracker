@@ -88,20 +88,24 @@ async def strava_callback(
             detail="This player slot is bound to a different Strava account",
         )
 
-    # Get profile photo
+    # Get profile info
     profile_photo = athlete_info.get("profile", athlete_info.get("profile_medium", ""))
+    fname = athlete_info.get("firstname", "")
+    lname = athlete_info.get("lastname", "")
+    full_name = f"{fname} {lname}".strip() or "Athlete"
 
     # Update player document
     player_ref.update(
         {
+            "display_name": full_name,
             "strava_athlete_id": strava_id,
             "status": "connected",
             "access_token": token_data["access_token"],
             "refresh_token": token_data["refresh_token"],
             "token_expiry": token_data["expires_at"],
             "profile_photo": profile_photo,
-            "strava_firstname": athlete_info.get("firstname", ""),
-            "strava_lastname": athlete_info.get("lastname", ""),
+            "strava_firstname": fname,
+            "strava_lastname": lname,
         }
     )
 

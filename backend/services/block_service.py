@@ -25,22 +25,22 @@ def seed_blocks():
             )
 
 
-def seed_players(player_names: list[str]):
+def seed_players(count: int = 2):
     """Seed player slots in Firestore if none exist."""
     db = get_db()
     athletes_ref = db.collection("athletes")
     existing = list(athletes_ref.stream())
 
-    if len(existing) >= len(player_names):
+    if len(existing) >= count:
         return  # Already seeded
 
-    for i, name in enumerate(player_names):
+    for i in range(count):
         player_id = f"player_{i + 1}"
         doc_ref = athletes_ref.document(player_id)
         if not doc_ref.get().exists:
             doc_ref.set(
                 {
-                    "display_name": name,
+                    "display_name": f"Player {i + 1}",
                     "strava_athlete_id": None,
                     "status": "pending",
                     "profile_photo": None,

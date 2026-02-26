@@ -4,7 +4,7 @@ Triathlon Competition Tracker — FastAPI Application
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from config import PLAYER1_NAME, PLAYER2_NAME, FRONTEND_URL
+from config import FRONTEND_URL
 from services.block_service import seed_blocks, seed_players
 from routers import auth, players, activities, scores
 
@@ -13,7 +13,7 @@ from routers import auth, players, activities, scores
 async def lifespan(app: FastAPI):
     """Startup: seed blocks and players."""
     seed_blocks()
-    seed_players([PLAYER1_NAME, PLAYER2_NAME])
+    seed_players()
     yield
 
 
