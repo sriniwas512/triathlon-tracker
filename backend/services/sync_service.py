@@ -36,7 +36,7 @@ async def sync_player_activities(player_id: str) -> dict:
     # Fetch athlete profile for weight (used in MET estimation)
     from services.strava_service import get_athlete_profile
     athlete_profile = await get_athlete_profile(access_token)
-    weight_kg = athlete_profile.get("weight", 70) or 70
+    weight_kg = athlete_profile.get("weight", 80) or 80
 
     # MET values for sport categories
     MET_VALUES = {
