@@ -5,6 +5,7 @@ import ScoreboardPanel from '../components/ScoreboardPanel'
 import WeekendBlockGrid from '../components/WeekendBlockGrid'
 import SportBreakdownPanel from '../components/SportBreakdownPanel'
 import ProjectionPanel from '../components/ProjectionPanel'
+import DinnerDebtTracker from '../components/DinnerDebtTracker'
 
 export default function DashboardPage() {
     const [data, setData] = useState(null)
@@ -67,6 +68,11 @@ export default function DashboardPage() {
             <HeaderBar players={players} onSync={handleSync} syncing={syncing} />
 
             <div className="dashboard">
+                <DinnerDebtTracker
+                    players={players}
+                    scoreboard={scoreboard}
+                />
+
                 <ScoreboardPanel
                     players={players}
                     scoreboard={scoreboard}
