@@ -37,18 +37,18 @@ const sportConfig = {
 
 function SportChart({ sport, players, breakdown }) {
     const config = sportConfig[sport]
-    if (!config || players.length < 2) return null
+    if (!config || players.length === 0) return null
 
     const p1 = players[0]
     const p2 = players[1]
 
     const calories1 = breakdown.cumulative_calories?.[p1.id]?.[sport] || 0
-    const calories2 = breakdown.cumulative_calories?.[p2.id]?.[sport] || 0
+    const calories2 = p2 ? (breakdown.cumulative_calories?.[p2.id]?.[sport] || 0) : 0
     const points1 = breakdown.cumulative_points?.[p1.id]?.[sport] || 0
-    const points2 = breakdown.cumulative_points?.[p2.id]?.[sport] || 0
+    const points2 = p2 ? (breakdown.cumulative_points?.[p2.id]?.[sport] || 0) : 0
 
     const calorieData = {
-        labels: [p1.display_name, p2.display_name],
+        labels: [p1.display_name, p2 ? p2.display_name : 'Waiting...'],
         datasets: [
             {
                 label: 'Calories',
@@ -114,7 +114,8 @@ function SportChart({ sport, players, breakdown }) {
                 }}
             >
                 <span>{p1.display_name}: <strong>{points1}</strong> pts</span>
-                <span>{p2.display_name}: <strong>{points2}</strong> pts</span>
+                {p2 && <span>{p2.display_name}: <strong>{points2}</strong> pts</span>}
+                {!p2 && <span style={{ opacity: 0.5 }}>Waiting for Player 2...</span>}
             </div>
         </div>
     )

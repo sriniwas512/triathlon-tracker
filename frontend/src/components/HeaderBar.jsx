@@ -29,18 +29,22 @@ export default function HeaderBar({ players, onSync, syncing }) {
                                 {p.display_name.charAt(0)}
                             </div>
                         )}
-                        <div>
+                        <div style={{ opacity: p.status === 'connected' ? 1 : 0.6 }}>
                             <div style={{ fontSize: '13px', fontWeight: 600 }}>{p.display_name}</div>
-                            <a
-                                href="#"
-                                className="header-reconnect"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    navigate('/login')
-                                }}
-                            >
-                                Re-connect
-                            </a>
+                            {p.status === 'connected' ? (
+                                <div style={{ fontSize: '11px', color: '#10b981' }}>● Connected</div>
+                            ) : (
+                                <a
+                                    href="#"
+                                    className="header-reconnect"
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        navigate('/login')
+                                    }}
+                                >
+                                    Connect Strava
+                                </a>
+                            )}
                         </div>
                     </div>
                 ))}

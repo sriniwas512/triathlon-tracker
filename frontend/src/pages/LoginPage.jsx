@@ -138,15 +138,14 @@ export default function LoginPage() {
                 <div className="login-proceed">
                     <button
                         className="btn btn-proceed"
-                        disabled={!allConnected}
                         onClick={() => navigate('/dashboard')}
                         style={{ width: '100%', maxWidth: '400px' }}
                     >
-                        {allConnected ? '🚀 Enter Dashboard' : '🔒 Connect all athletes to continue'}
+                        🚀 Enter Dashboard
                     </button>
                     {!allConnected && (
                         <p className="login-detail" style={{ marginTop: '16px', textAlign: 'center', fontSize: '14px', opacity: 0.7 }}>
-                            Waiting for both players to link their Strava accounts...
+                            Note: Not all athletes are connected. You can still enter single-player mode.
                         </p>
                     )}
                 </div>

@@ -1,10 +1,11 @@
 export default function WeekendBlockGrid({ players, blockScores, blocks }) {
-    if (!players || players.length < 2) return null
+    if (!players || players.length === 0) return null
 
     const p1 = players[0]
     const p2 = players[1]
 
     const blockOrder = ['block_1', 'block_2', 'block_3', 'block_4', 'block_5']
+    const p2Label = p2 && p2.status === 'connected' ? p2.display_name : 'Waiting for Player 2...'
     const blockLabels = {
         block_1: 'Block 1 — Mar 1',
         block_2: 'Block 2 — Mar 6–8',
@@ -86,16 +87,16 @@ export default function WeekendBlockGrid({ players, blockScores, blocks }) {
                                     }
 
                                     const cals1 = score.calories_by_sport?.[sport]?.[p1.id] || 0
-                                    const cals2 = score.calories_by_sport?.[sport]?.[p2.id] || 0
+                                    const cals2 = p2 ? (score.calories_by_sport?.[sport]?.[p2.id] || 0) : 0
                                     const pts1 = score.points_by_sport?.[sport]?.[p1.id] || 0
-                                    const pts2 = score.points_by_sport?.[sport]?.[p2.id] || 0
+                                    const pts2 = p2 ? (score.points_by_sport?.[sport]?.[p2.id] || 0) : 0
                                     const cellClass = getCellClass(pts1, pts2)
 
                                     return (
-                                        <td key={sport} className={cellClass}>
-                                            <div className="cell-points">{pts1} — {pts2}</div>
+                                        <td key={sport} className={cellClass} style={{ opacity: p2 && p2.status === 'connected' ? 1 : (pts1 > 0 ? 1 : 0.6) }}>
+                                            <div className="cell-points">{pts1} — {p2?.status === 'connected' ? pts2 : '?'}</div>
                                             <div className="cell-calories">
-                                                {formatCals(cals1)} vs {formatCals(cals2)} cal
+                                                {formatCals(cals1)} vs {p2?.status === 'connected' ? formatCals(cals2) : '—'} cal
                                             </div>
                                         </td>
                                     )
@@ -119,8 +120,8 @@ export default function WeekendBlockGrid({ players, blockScores, blocks }) {
                                                 {score.total_points?.[p1.id] || 0}
                                             </span>
                                             {' — '}
-                                            <span style={{ color: 'var(--cycling-color)' }}>
-                                                {score.total_points?.[p2.id] || 0}
+                                            <span style={{ color: p2?.status === 'connected' ? 'var(--cycling-color)' : 'var(--text-muted)' }}>
+                                                {p2?.status === 'connected' ? (score.total_points?.[p2.id] || 0) : '?'}
                                             </span>
                                         </>
                                     ) : (

@@ -1,12 +1,12 @@
 export default function ScoreboardPanel({ players, scoreboard, blockScores }) {
-    if (!scoreboard || players.length < 2) return null
+    if (!scoreboard || players.length === 0) return null
 
     const p1 = players[0]
     const p2 = players[1]
     const t1 = scoreboard.totals?.[p1.id] || 0
-    const t2 = scoreboard.totals?.[p2.id] || 0
+    const t2 = p2 ? (scoreboard.totals?.[p2.id] || 0) : 0
     const p1Leading = t1 > t2
-    const p2Leading = t2 > t1
+    const p2Leading = p2 && t2 > t1
 
     // Find clean sweep blocks
     const sweepBlocks = (blockScores || []).filter(
@@ -19,14 +19,18 @@ export default function ScoreboardPanel({ players, scoreboard, blockScores }) {
 
             <div className="scoreboard-scores">
                 <div className="scoreboard-player">
-                    <div className="scoreboard-player-name">{p1.display_name}</div>
+                    <div className="scoreboard-player-name" style={{ opacity: p1.status === 'connected' ? 1 : 0.5 }}>
+                        {p1.display_name}
+                    </div>
                     <div className={`scoreboard-player-score ${p1Leading ? 'leading' : ''}`}>
                         {t1}
                     </div>
                 </div>
                 <div className="scoreboard-vs">vs</div>
                 <div className="scoreboard-player">
-                    <div className="scoreboard-player-name">{p2.display_name}</div>
+                    <div className="scoreboard-player-name" style={{ opacity: p2?.status === 'connected' ? 1 : 0.5 }}>
+                        {p2 ? p2.display_name : 'Waiting for Player 2...'}
+                    </div>
                     <div className={`scoreboard-player-score ${p2Leading ? 'leading' : ''}`}>
                         {t2}
                     </div>

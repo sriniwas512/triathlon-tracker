@@ -44,8 +44,7 @@ def calculate_block_scores(block_id: str) -> dict:
     players = []
     for pdoc in db.collection("athletes").stream():
         pdata = pdoc.to_dict()
-        if pdata.get("status") == "connected":
-            players.append({"id": pdoc.id, **pdata})
+        players.append({"id": pdoc.id, **pdata})
 
     player_ids = [p["id"] for p in players]
 
@@ -317,5 +316,5 @@ def get_dashboard_data() -> dict:
             "cumulative_calories": sport_cumulative_calories,
             "cumulative_points": sport_cumulative_points,
         },
-        "projection": projection,
+        "projection": projection if (projection and any(v > 0 for v in grand_total.values())) else None,
     }

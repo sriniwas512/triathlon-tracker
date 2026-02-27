@@ -1,5 +1,5 @@
 export default function ProjectionPanel({ players, projection, scoreboard }) {
-    if (!projection || players.length < 2) return null
+    if (!projection || players.length === 0) return null
 
     const p1 = players[0]
     const p2 = players[1]
@@ -28,8 +28,8 @@ export default function ProjectionPanel({ players, projection, scoreboard }) {
 
             <div className="projection-detail">
                 <strong>Projected Totals:</strong>{' '}
-                {p1.display_name}: {projection.projected_totals?.[p1.id] || 0} pts •{' '}
-                {p2.display_name}: {projection.projected_totals?.[p2.id] || 0} pts
+                {p1.display_name}: {projection.projected_totals?.[p1.id] || 0} pts
+                {p2 && ` • ${p2.display_name}: ${projection.projected_totals?.[p2.id] || 0} pts`}
             </div>
 
             <div className="projection-detail" style={{ marginTop: '8px' }}>
