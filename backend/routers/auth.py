@@ -3,6 +3,7 @@ Authentication router — Strava OAuth 2.0 flow.
 """
 from urllib.parse import urlencode
 from fastapi import APIRouter, HTTPException, Query
+from fastapi.responses import RedirectResponse
 from config import (
     STRAVA_CLIENT_ID,
     STRAVA_AUTH_URL,
@@ -110,7 +111,7 @@ async def strava_callback(
     )
 
     # Redirect to frontend
-    return {"status": "connected", "redirect": f"{FRONTEND_URL}/login?connected={player_id}"}
+    return RedirectResponse(url=f"{FRONTEND_URL}/login?connected={player_id}")
 
 
 @router.get("/status")
