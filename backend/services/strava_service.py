@@ -114,6 +114,21 @@ async def list_activities(
     return all_activities
 
 
+async def get_recent_activities(access_token: str, count: int = 5) -> list[dict]:
+    """GET /athlete/activities — returns the N most recent activities."""
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(
+            f"{STRAVA_API_BASE}/athlete/activities",
+            headers={"Authorization": f"Bearer {access_token}"},
+            params={
+                "per_page": count,
+                "page": 1,
+            },
+        )
+        resp.raise_for_status()
+        return resp.json()
+
+
 async def get_activity_detail(access_token: str, activity_id: int) -> dict:
     """GET /activities/{id} — returns DetailedActivity with calories."""
     async with httpx.AsyncClient() as client:
