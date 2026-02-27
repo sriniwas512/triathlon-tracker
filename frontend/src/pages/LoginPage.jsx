@@ -138,14 +138,17 @@ export default function LoginPage() {
                 <div className="login-proceed">
                     <button
                         className="btn btn-proceed"
+                        disabled={players.filter(p => p.status === 'connected').length === 0}
                         onClick={() => navigate('/dashboard')}
                         style={{ width: '100%', maxWidth: '400px' }}
                     >
-                        🚀 Enter Dashboard
+                        {players.filter(p => p.status === 'connected').length === 0 ? '🔒 Connect at least one athlete' : '🚀 Enter Dashboard'}
                     </button>
                     {!allConnected && (
                         <p className="login-detail" style={{ marginTop: '16px', textAlign: 'center', fontSize: '14px', opacity: 0.7 }}>
-                            Note: Not all athletes are connected. You can still enter single-player mode.
+                            {players.filter(p => p.status === 'connected').length === 0
+                                ? 'Waiting for at least one athlete to link their Strava account...'
+                                : 'Note: Not all athletes are connected. You can still enter single-player mode.'}
                         </p>
                     )}
                 </div>
