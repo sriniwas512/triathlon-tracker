@@ -56,9 +56,9 @@ def calculate_block_scores(block_id: str) -> dict:
 
     # Group: {player_id: {sport_category: total_calories}}
     calories_by_player_sport = defaultdict(lambda: defaultdict(float))
-    # Also track details for dashboard: distance, time
+    # Also track details for dashboard: distance, time, estimated flag
     details_by_player_sport = defaultdict(
-        lambda: defaultdict(lambda: {"calories": 0, "distance": 0, "time": 0, "count": 0})
+        lambda: defaultdict(lambda: {"calories": 0, "distance": 0, "time": 0, "count": 0, "is_estimated": False})
     )
 
     for adoc in block_activities:
@@ -71,6 +71,8 @@ def calculate_block_scores(block_id: str) -> dict:
         details_by_player_sport[pid][sport]["distance"] += a.get("distance_meters", 0) or 0
         details_by_player_sport[pid][sport]["time"] += a.get("moving_time_seconds", 0) or 0
         details_by_player_sport[pid][sport]["count"] += 1
+        if a.get("calorie_source") == "met_estimated":
+            details_by_player_sport[pid][sport]["is_estimated"] = True
 
     # Score each sport
     calories_by_sport = {}  # {sport: {player_id: total}}
@@ -225,6 +227,9 @@ def get_dashboard_data() -> dict:
     sport_cumulative_distance = {
         pid: {"Cycling": 0, "Running": 0, "Swimming": 0} for pid in player_ids
     }
+    sport_cumulative_is_estimated = {
+        pid: {"Cycling": 0, "Running": 0, "Swimming": 0} for pid in player_ids
+    }
 
     locked_count = 0
     total_bonus_rate = 0
@@ -254,6 +259,8 @@ def get_dashboard_data() -> dict:
             for pid in player_ids:
                 sport_details = details.get(pid, {}).get(sport, {})
                 sport_cumulative_distance[pid][sport] += sport_details.get("distance", 0)
+                if sport_details.get("is_estimated"):
+                    sport_cumulative_is_estimated[pid][sport] = True
 
         # Bonus tracking
         bp = score.get("bonus_points", {})
@@ -325,6 +332,7 @@ def get_dashboard_data() -> dict:
             "cumulative_calories": sport_cumulative_calories,
             "cumulative_points": sport_cumulative_points,
             "cumulative_distance": sport_cumulative_distance,
+            "cumulative_is_estimated": sport_cumulative_is_estimated,
         },
         "projection": projection if (projection and any(v > 0 for v in grand_total.values())) else None,
     }

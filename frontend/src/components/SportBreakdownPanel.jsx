@@ -75,7 +75,11 @@ function SportChart({ sport, players, breakdown }) {
                 cornerRadius: 8,
                 padding: 12,
                 callbacks: {
-                    label: (ctx) => `${Math.round(ctx.raw).toLocaleString()} cal`,
+                    label: (ctx) => {
+                        const pid = players[ctx.dataIndex].id
+                        const isEst = breakdown.cumulative_is_estimated?.[pid]?.[sport]
+                        return `${Math.round(ctx.raw).toLocaleString()} cal${isEst ? '*' : ''}`
+                    },
                 },
             },
         },

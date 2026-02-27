@@ -88,6 +88,8 @@ export default function WeekendBlockGrid({ players, blockScores, blocks }) {
 
                                     const cals1 = score.calories_by_sport?.[sport]?.[p1.id] || 0
                                     const cals2 = p2 ? (score.calories_by_sport?.[sport]?.[p2.id] || 0) : 0
+                                    const est1 = score.details_by_player_sport?.[p1.id]?.[sport]?.is_estimated
+                                    const est2 = p2 ? score.details_by_player_sport?.[p2.id]?.[sport]?.is_estimated : false
                                     const pts1 = score.points_by_sport?.[sport]?.[p1.id] || 0
                                     const pts2 = p2 ? (score.points_by_sport?.[sport]?.[p2.id] || 0) : 0
                                     const cellClass = getCellClass(pts1, pts2)
@@ -96,7 +98,14 @@ export default function WeekendBlockGrid({ players, blockScores, blocks }) {
                                         <td key={sport} className={cellClass} style={{ opacity: p2 && p2.status === 'connected' ? 1 : (pts1 > 0 ? 1 : 0.6) }}>
                                             <div className="cell-points">{pts1} — {p2?.status === 'connected' ? pts2 : '?'}</div>
                                             <div className="cell-calories">
-                                                {formatCals(cals1)} vs {p2?.status === 'connected' ? formatCals(cals2) : '—'} cal
+                                                {formatCals(cals1)}{est1 && <span title="MET Estimated">*</span>} vs{' '}
+                                                {p2?.status === 'connected' ? (
+                                                    <>
+                                                        {formatCals(cals2)}
+                                                        {est2 && <span title="MET Estimated">*</span>}
+                                                    </>
+                                                ) : '—'}{' '}
+                                                cal
                                             </div>
                                         </td>
                                     )
@@ -176,6 +185,7 @@ export default function WeekendBlockGrid({ players, blockScores, blocks }) {
                 </span>
                 <span>⚡+1 = Clean Sweep Bonus</span>
                 <span>🔒 = Scores Locked</span>
+                <span>* = Calories Estimated (MET)</span>
             </div>
         </div>
     )

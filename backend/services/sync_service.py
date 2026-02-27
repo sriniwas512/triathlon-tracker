@@ -33,6 +33,18 @@ async def sync_player_activities(player_id: str) -> dict:
 
     synced = {"new": 0, "skipped": 0, "ignored_sport": 0}
 
+    # Fetch athlete profile for weight (used in MET estimation)
+    from services.strava_service import get_athlete_profile
+    athlete_profile = await get_athlete_profile(access_token)
+    weight_kg = athlete_profile.get("weight", 70) or 70
+
+    # MET values for sport categories
+    MET_VALUES = {
+        "Running": 9.8,
+        "Cycling": 7.5,
+        "Swimming": 8.0,
+    }
+
     # Fetch all activities for the entire competition window
     from config import COMPETITION_START_UTC, COMPETITION_END_UTC
     after_ts = int(COMPETITION_START_UTC.timestamp())
@@ -81,14 +93,26 @@ async def sync_player_activities(player_id: str) -> dict:
             synced["ignored_sport"] += 1
             continue
 
-        # Fetch detailed activity for calories
+        # Fetch detailed activity for base calorie/kj data
         detail = await get_activity_detail(access_token, activity["id"])
+        
+        # Calories Fallback Chain
         calories = detail.get("calories", 0) or 0
         kilojoules = detail.get("kilojoules", 0) or 0
-
-        # Fallback: derive calories from kilojoules
-        if calories == 0 and kilojoules > 0:
-            calories = round(kilojoules * 0.239, 2)
+        moving_time_seconds = activity.get("moving_time", 0) or 0
+        
+        calorie_source = "strava_native"
+        
+        if calories == 0:
+            if kilojoules > 0:
+                calories = round(kilojoules * 0.239, 2)
+                calorie_source = "kilojoules_derived"
+            else:
+                # MET Estimation
+                met = MET_VALUES.get(sport_category, 1.0)
+                duration_hours = moving_time_seconds / 3600.0
+                calories = round(met * weight_kg * duration_hours, 2)
+                calorie_source = "met_estimated"
 
         # Store
         db.collection("activities").document(activity_id).set(
@@ -101,9 +125,10 @@ async def sync_player_activities(player_id: str) -> dict:
                 "block_id": block_id,
                 "start_date_utc": start_date_utc.isoformat(),
                 "calories": calories,
+                "calorie_source": calorie_source,
                 "kilojoules": kilojoules,
                 "distance_meters": activity.get("distance", 0) or 0,
-                "moving_time_seconds": activity.get("moving_time", 0) or 0,
+                "moving_time_seconds": moving_time_seconds,
                 "name": activity.get("name", ""),
             }
         )
