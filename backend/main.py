@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from config import FRONTEND_URL, BACKEND_URL
 from services.block_service import seed_blocks, seed_players
-from routers import auth, players, activities, scores
+from routers import auth, players, activities, scores, admin
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -49,6 +49,7 @@ app.include_router(auth.router)
 app.include_router(players.router)
 app.include_router(activities.router)
 app.include_router(scores.router)
+app.include_router(admin.router)
 
 
 @app.get("/")
