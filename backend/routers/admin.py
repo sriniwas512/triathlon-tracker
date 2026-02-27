@@ -7,7 +7,7 @@ from firebase_client import get_db
 router = APIRouter(prefix="/api/admin", tags=["admin"])
 
 
-@router.delete("/reset")
+@router.get("/reset")
 async def reset_data():
     """
     Reset all athlete data, activities, and scores for testing.
