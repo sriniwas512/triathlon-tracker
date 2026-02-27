@@ -6,6 +6,7 @@ import WeekendBlockGrid from '../components/WeekendBlockGrid'
 import SportBreakdownPanel from '../components/SportBreakdownPanel'
 import ProjectionPanel from '../components/ProjectionPanel'
 import DinnerDebtTracker from '../components/DinnerDebtTracker'
+import KilometresBreakdownPanel from '../components/KilometresBreakdownPanel'
 
 export default function DashboardPage() {
     const [data, setData] = useState(null)
@@ -98,6 +99,12 @@ export default function DashboardPage() {
                         scoreboard={scoreboard}
                     />
                 )}
+
+                <KilometresBreakdownPanel
+                    players={players}
+                    blockScores={block_scores}
+                    sportBreakdown={sport_breakdown}
+                />
             </div>
         </div>
     )

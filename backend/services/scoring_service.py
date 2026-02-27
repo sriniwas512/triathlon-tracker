@@ -222,6 +222,9 @@ def get_dashboard_data() -> dict:
     sport_cumulative_points = {
         pid: {"Cycling": 0, "Running": 0, "Swimming": 0} for pid in player_ids
     }
+    sport_cumulative_distance = {
+        pid: {"Cycling": 0, "Running": 0, "Swimming": 0} for pid in player_ids
+    }
 
     locked_count = 0
     total_bonus_rate = 0
@@ -245,6 +248,12 @@ def get_dashboard_data() -> dict:
             if sport in pbs:
                 for pid in player_ids:
                     sport_cumulative_points[pid][sport] += pbs[sport].get(pid, 0)
+            
+            # Distance tracking from details
+            details = score.get("details_by_player_sport", {})
+            for pid in player_ids:
+                sport_details = details.get(pid, {}).get(sport, {})
+                sport_cumulative_distance[pid][sport] += sport_details.get("distance", 0)
 
         # Bonus tracking
         bp = score.get("bonus_points", {})
@@ -315,6 +324,7 @@ def get_dashboard_data() -> dict:
         "sport_breakdown": {
             "cumulative_calories": sport_cumulative_calories,
             "cumulative_points": sport_cumulative_points,
+            "cumulative_distance": sport_cumulative_distance,
         },
         "projection": projection if (projection and any(v > 0 for v in grand_total.values())) else None,
     }
