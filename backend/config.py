@@ -102,6 +102,9 @@ BLOCK_DEFINITIONS = [
     },
 ]
 
+COMPETITION_START_UTC = _jst_to_utc(2026, 3, 1)        # Sun Mar 1 00:00 JST
+COMPETITION_END_UTC = _pst_to_utc(2026, 3, 29)          # Sun Mar 29 23:59:59 PST
+
 
 def get_block_for_activity(start_date_utc: datetime) -> str | None:
     """Return block_id if the activity falls within a block window, else None."""
